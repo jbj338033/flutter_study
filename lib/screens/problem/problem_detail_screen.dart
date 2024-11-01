@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/models/problem.dart';
+import 'package:solve/models/problem.dart';
 
 class ProblemDetailScreen extends StatelessWidget {
-  final Problem problem;
+  final ProblemResponse problem;
 
   const ProblemDetailScreen({
     super.key,

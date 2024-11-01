@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/screens/login_screen.dart';
-import 'package:flutter_study/screens/main_screen.dart';
-import 'package:flutter_study/screens/signup_screen.dart';
+import 'package:solve/screens/auth/login_screen.dart';
+import 'package:solve/screens/main_screen.dart';
+import 'package:solve/screens/auth/signup_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   await dotenv.load();
 
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
+      title: 'Solve',
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
+      themeMode: ThemeMode.system,
       home: const MainScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),

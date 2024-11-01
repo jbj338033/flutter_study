@@ -1,4 +1,4 @@
-# flutter_study
+# solve
 
 A new Flutter project.
 

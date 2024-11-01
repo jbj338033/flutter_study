@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:solve/configs/api_config.dart';
+import 'package:solve/screens/profile/edit_profile_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _isLoading = true;
   String _selectedYear = DateTime.now().year.toString();
   Map<String, dynamic>? _profileData;
+  // 이미지 캐시 무효화를 위한 타임스탬프
+  String _imageTimestamp = DateTime.now().millisecondsSinceEpoch.toString();
 
   @override
   void initState() {
@@ -46,8 +50,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (response.statusCode == 200) {
         setState(() {
-          _profileData = json.decode(response.body)['data'];
+          _profileData = json.decode(utf8.decode(response.bodyBytes))['data'];
           _isLoading = false;
+          // 프로필 데이터를 새로 받아올 때마다 타임스탬프 업데이트
+          _imageTimestamp = DateTime.now().millisecondsSinceEpoch.toString();
         });
       } else {
         if (mounted) {
@@ -132,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return InkWell(
                       onTap: () => _showDayDetail(context, day, value),
                       child: Tooltip(
-                        message: '${dateStr}: ${value ?? 0}문제',
+                        message: '$dateStr: ${value ?? 0}문제',
                         child: Container(
                           width: 12,
                           height: 12,
@@ -154,7 +160,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-// 날짜 상세 정보를 보여주는 다이얼로그를 표시하는 메서드를 추가합니다
   void _showDayDetail(
       BuildContext context, DateTime date, int? solvedCount) async {
     final colorScheme = Theme.of(context).colorScheme;
@@ -260,18 +265,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 사용자 기본 정보
                   Row(
                     children: [
                       CircleAvatar(
                         radius: 40,
                         backgroundColor: colorScheme.primaryContainer,
-                        child: Text(
-                          _profileData?['username']?[0].toUpperCase() ?? '?',
-                          style: TextStyle(
-                            fontSize: 32,
-                            color: colorScheme.onPrimaryContainer,
-                          ),
+                        backgroundImage: NetworkImage(
+                          '$API_URL/avatars/${_profileData!['id']}.webp?t=$_imageTimestamp',
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -296,15 +296,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                       ),
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditProfileScreen(
+                                profileData: _profileData!,
+                              ),
+                            ),
+                          ).then((_) => _fetchProfile());
+                        },
+                      ),
                     ],
                   ),
 
                   if (_profileData?['introduction']?.isNotEmpty ?? false) ...[
                     const SizedBox(height: 16),
-                    Text(
-                      _profileData?['introduction'] ?? '',
-                      style: TextStyle(
-                        color: colorScheme.onSurfaceVariant,
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.format_quote, size: 20),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '자기소개',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              _profileData?['introduction'] ?? '',
+                              style: TextStyle(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

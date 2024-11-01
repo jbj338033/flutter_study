@@ -1,6 +1,6 @@
-import 'package:flutter_study/models/base.dart';
+import 'package:solve/models/base.dart';
 
-class Problem implements JsonConvertible {
+class ProblemResponse implements JsonConvertible {
   final int id;
   final String title;
   final String content;
@@ -9,11 +9,11 @@ class Problem implements JsonConvertible {
   final int memoryLimit;
   final double timeLimit;
   final double correctRate;
-  final List<ProblemTestCase> testCases;
-  final ProblemAuthor author;
+  final List<ProblemTestCaseResponse> testCases;
+  final ProblemAuthorResponse author;
   final ProblemSubmitState? state;
 
-  Problem({
+  ProblemResponse({
     required this.id,
     required this.title,
     required this.content,
@@ -27,8 +27,8 @@ class Problem implements JsonConvertible {
     required this.state,
   });
 
-  factory Problem.fromJson(Map<String, dynamic> json) {
-    return Problem(
+  factory ProblemResponse.fromJson(Map<String, dynamic> json) {
+    return ProblemResponse(
       id: json['id'],
       title: json['title'],
       content: json['content'],
@@ -38,9 +38,9 @@ class Problem implements JsonConvertible {
       timeLimit: json['timeLimit'],
       correctRate: json['correctRate'],
       testCases: (json['testCases'] as List<dynamic>)
-          .map((testCase) => ProblemTestCase.fromJson(testCase))
+          .map((testCase) => ProblemTestCaseResponse.fromJson(testCase))
           .toList(),
-      author: ProblemAuthor.fromJson(json['author']),
+      author: ProblemAuthorResponse.fromJson(json['author']),
       state: json['state'] == null
           ? null
           : ProblemSubmitState.values.firstWhere(
@@ -49,19 +49,19 @@ class Problem implements JsonConvertible {
   }
 }
 
-class ProblemTestCase {
+class ProblemTestCaseResponse implements JsonConvertible {
   final int id;
   final String input;
   final String output;
 
-  ProblemTestCase({
+  ProblemTestCaseResponse({
     required this.id,
     required this.input,
     required this.output,
   });
 
-  factory ProblemTestCase.fromJson(Map<String, dynamic> json) {
-    return ProblemTestCase(
+  factory ProblemTestCaseResponse.fromJson(Map<String, dynamic> json) {
+    return ProblemTestCaseResponse(
       id: json['id'],
       input: json['input'],
       output: json['output'],
@@ -69,13 +69,13 @@ class ProblemTestCase {
   }
 }
 
-class ProblemAuthor {
+class ProblemAuthorResponse implements JsonConvertible {
   final String username;
 
-  ProblemAuthor({required this.username});
+  ProblemAuthorResponse({required this.username});
 
-  factory ProblemAuthor.fromJson(Map<String, dynamic> json) {
-    return ProblemAuthor(username: json['username']);
+  factory ProblemAuthorResponse.fromJson(Map<String, dynamic> json) {
+    return ProblemAuthorResponse(username: json['username']);
   }
 }
 

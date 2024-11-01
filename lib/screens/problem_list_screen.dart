@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_study/models/page.dart';
-import 'package:flutter_study/models/problem.dart';
-import 'package:flutter_study/screens/problem_detail_screen.dart';
+import 'package:solve/models/page.dart';
+import 'package:solve/models/problem.dart';
+import 'package:solve/screens/problem/problem_detail_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +26,7 @@ class ProblemListScreen extends StatefulWidget {
 }
 
 class _ProblemListScreenState extends State<ProblemListScreen> {
-  final List<Problem> _problems = [];
+  final List<ProblemResponse> _problems = [];
   bool _isLoading = true;
   bool _isLoadingMore = false;
   int _page = 0;
@@ -74,7 +74,7 @@ class _ProblemListScreenState extends State<ProblemListScreen> {
               'https://api.solve.mcv.kr/problems?page=$_page&size=$_pageSize'),
           headers: {
             "Content-Type": "application/json; charset=utf-8",
-            if (token != null) "Authorization": "Bearer $token"
+            "Authorization": "Bearer $token"
           });
 
       if (response.statusCode == 200) {
@@ -83,7 +83,7 @@ class _ProblemListScreenState extends State<ProblemListScreen> {
         if (responseData != null) {
           final data = PageResponse.fromJson(
             responseData as Map<String, dynamic>,
-            Problem.fromJson,
+            ProblemResponse.fromJson,
           );
 
           if (mounted) {
@@ -116,7 +116,7 @@ class _ProblemListScreenState extends State<ProblemListScreen> {
     );
   }
 
-  void _navigateToProblemDetail(Problem problem) {
+  void _navigateToProblemDetail(ProblemResponse problem) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -223,7 +223,7 @@ class _ProblemListScreenState extends State<ProblemListScreen> {
     );
   }
 
-  Widget _buildProblemCard(Problem problem) {
+  Widget _buildProblemCard(ProblemResponse problem) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(

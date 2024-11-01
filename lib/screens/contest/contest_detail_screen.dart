@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/models/contest.dart';
+import 'package:solve/models/contest.dart';
 import 'package:intl/intl.dart';
 
 class ContestDetailScreen extends StatelessWidget {

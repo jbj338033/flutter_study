@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/screens/contest_list_screen.dart';
-import 'package:flutter_study/screens/home_screen.dart';
-import 'package:flutter_study/screens/problem_list_screen.dart';
-import 'package:flutter_study/screens/profile_screen.dart';
+import 'package:solve/screens/contest/contest_list_screen.dart';
+import 'package:solve/screens/home/home_screen.dart';
+import 'package:solve/screens/problem/problem_list_screen.dart';
+import 'package:solve/screens/profile/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {

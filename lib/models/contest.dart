@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:solve/models/base.dart';
 
-class ContestResponse {
+class ContestResponse implements JsonConvertible {
   final int id;
   final String title;
   final String description;
@@ -57,7 +58,7 @@ class ContestResponse {
   }
 }
 
-class ContestParticipantResponse {
+class ContestParticipantResponse implements JsonConvertible {
   final String username;
 
   ContestParticipantResponse({required this.username});
@@ -67,7 +68,7 @@ class ContestParticipantResponse {
   }
 }
 
-class ContestOwnerResponse {
+class ContestOwnerResponse implements JsonConvertible {
   final String username;
 
   ContestOwnerResponse({required this.username});
@@ -77,7 +78,7 @@ class ContestOwnerResponse {
   }
 }
 
-class ContestOperatorResponse {
+class ContestOperatorResponse implements JsonConvertible {
   final String username;
 
   ContestOperatorResponse({required this.username});
@@ -87,7 +88,7 @@ class ContestOperatorResponse {
   }
 }
 
-class ContestProblem {
+class ContestProblem implements JsonConvertible {
   final String title;
 
   ContestProblem({required this.title});

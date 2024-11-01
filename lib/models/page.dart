@@ -1,3 +1,5 @@
+import 'package:solve/models/base.dart';
+
 class PageResponse<T> {
   final int totalElements;
   final int totalPages;
@@ -49,7 +51,7 @@ class PageResponse<T> {
   }
 }
 
-class Sort {
+class Sort implements JsonConvertible {
   final bool empty;
   final bool sorted;
   final bool unsorted;
@@ -64,7 +66,7 @@ class Sort {
   }
 }
 
-class Pageable {
+class Pageable implements JsonConvertible {
   final int offset;
   final Sort sort;
   final int pageSize;

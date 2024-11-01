@@ -1,4 +1,4 @@
-name: flutter_study
+name: solve
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,6 +34,8 @@ dependencies:
   shared_preferences: ^2.3.2
   intl: ^0.19.0
   flutter_dotenv: ^5.2.1
+  flutter_launcher_icons: ^0.14.1
+  image_picker: ^1.1.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
